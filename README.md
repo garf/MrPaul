@@ -4,4 +4,5 @@
 
 - Clone repository
 - Run `./gradlew build`
-- Done
+- Then `./gradlew run`
+- Now server is up and running

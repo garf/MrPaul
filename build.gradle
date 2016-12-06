@@ -28,3 +28,11 @@ uploadArchives {
         }
     }
 }
+
+jar {
+    baseName = 'MrPaul'
+    version =  '0.0.1'
+}
+
+apply plugin: 'application'
+mainClassName = 'MrPaul'
