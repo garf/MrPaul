@@ -6,9 +6,12 @@ import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.SlackUser;
 import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessageListeners
 {
+    private static final Logger logger = LoggerFactory.getLogger(MessageListeners.class);
     private String channel = "random";
 
     public MessageListeners(String channel) {
@@ -49,6 +52,8 @@ public class MessageListeners
                 // if I'm only interested on a certain channel :
                 // I can filter out messages coming from other channels
                 SlackChannel theChannel = session1.findChannelByName(channel);
+
+                logger.debug(event.getMessageContent());
 
                 if (!theChannel.getId().equals(event.getChannel().getId())) {
                     return;
