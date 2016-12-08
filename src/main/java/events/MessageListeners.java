@@ -58,20 +58,19 @@ public class MessageListeners
                 if (!theChannel.getId().equals(event.getChannel().getId())) {
                     return;
                 }
+
                 LunchPoll poll = new LunchPoll();
 
                 String messageContent = event.getMessageContent();
-                if (messageContent.contains("Let's choose?\n")) {
-                    poll.addReactionPoll(session1, event);
+
+                poll.addReactionPoll(session1, event);
+
+                // Not for me! Ignore.
+                if (
+                    !messageContent.contains("@" + session1.sessionPersona().getId())
+                ) {
                     return;
                 }
-
-                // How to avoid message the bot send (yes it is receiving notification for its own messages)
-                // session.sessionPersona() returns the user this session represents
-                if (session1.sessionPersona().getId().equals(event.getSender().getId())) {
-                    return;
-                }
-
 
                 poll.lunchPoll(session1, event);
             }

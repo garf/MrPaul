@@ -3,8 +3,6 @@ package actions;
 import com.ullink.slack.simpleslackapi.*;
 import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 
-import java.util.Iterator;
-
 public class LunchPoll {
 
     private String[] nums = {
@@ -48,8 +46,12 @@ public class LunchPoll {
     }
 
     public void addReactionPoll(SlackSession session, SlackMessagePosted event) {
-        for (String num : nums) {
-            session.addReactionToMessage(event.getChannel(), event.getTimestamp(), num);
+        if (session.sessionPersona().getId().equals(event.getSender().getId()) &&
+            event.getMessageContent().contains("Let's choose?\n")
+        ) {
+            for (String num : nums) {
+                session.addReactionToMessage(event.getChannel(), event.getTimestamp(), num);
+            }
         }
     }
 }
