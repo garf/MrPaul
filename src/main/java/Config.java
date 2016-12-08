@@ -6,7 +6,7 @@ class Config {
         Map<String, String> map = new HashMap<String, String>();
 
         map.put("channel", "random");
-        map.put("token", "YourToken");
+        map.put("token", "xoxb-113616991702-8RTnhYhgSRydtiomno1dxsEn");
 
         return map.get(key);
     }

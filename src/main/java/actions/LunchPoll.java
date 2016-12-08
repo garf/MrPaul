@@ -3,7 +3,27 @@ package actions;
 import com.ullink.slack.simpleslackapi.*;
 import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 
+import java.util.Iterator;
+
 public class LunchPoll {
+
+    private String[] nums = {
+        "zero", "one", "two",
+        "three", "four", "five",
+        "six", "seven", "eight",
+        "nine", "ten"
+    };
+
+    private String[] places = {
+        "Italian",
+        "Asian",
+        "Burger",
+        "Cafe Ole",
+        "Greece",
+        "Doner",
+        "Greece",
+        "Edeka",
+    };
 
     public void greetings(SlackSession session, String channelName)
     {
@@ -15,18 +35,21 @@ public class LunchPoll {
         // Then you can also filter out on the message content itself
         String messageContent = event.getMessageContent();
         if (messageContent.contains("lunch") || messageContent.contains("Lunch")) {
-            session.sendMessage(event.getChannel(),"Are you hungry?");
-            session.sendMessage(event.getChannel(), "");
+            String poll = "Let's choose?\n";
+            for (int i = 0; i < places.length; i++) {
+                poll += ":" + nums[i] + ": " + places[i] + "\n";
+            }
+            session.sendMessage(event.getChannel(), poll);
         }
 
         if (messageContent.contains("LUNCH")) {
             session.sendMessage(event.getChannel(),"STOP YELLING AT ME! GO EAT!");
         }
+    }
 
-        if (messageContent.contains("React")) {
-            SlackMessageHandle message = session.sendMessage(event.getChannel(),"I will try to");
-            //TODO: investigate how to get new created message's timestamp.
-//            session.addReactionToMessage(event.getChannel(), message.getReply().toString(), ":+1:");
+    public void addReactionPoll(SlackSession session, SlackMessagePosted event) {
+        for (String num : nums) {
+            session.addReactionToMessage(event.getChannel(), event.getTimestamp(), num);
         }
     }
 }
