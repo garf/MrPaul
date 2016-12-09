@@ -21,6 +21,12 @@ Also you can set 2 console params when running the bot.
 
 This params have higher priority.
 
+## Plans
+
+- Add possibility to use Database to store poll lists
+- Update list dynamically from chat
+- Add any other interesting behaviours
+
 ## Contributions
 All contributions and help are highly appreciated. I want to learn Java and will be grateful for any help. 
 Make your Pull Requests to the master branch.
