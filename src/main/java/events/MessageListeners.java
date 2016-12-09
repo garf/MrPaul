@@ -4,7 +4,6 @@ import actions.LunchPoll;
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.SlackUser;
-import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +43,7 @@ public class MessageListeners
             poll.addReactionPoll(session1, event);
 
             // Not for me! Ignore.
-            if (
-                !messageContent.contains("@" + session1.sessionPersona().getId())
-            ) {
+            if (!messageContent.contains("@" + session1.sessionPersona().getId())) {
                 return;
             }
 

@@ -1,13 +1,30 @@
-import java.util.Map;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 class Config {
+    private static Properties properties = new Properties();
+    private static InputStream fileInput = null;
+
     static String get(String key) {
-        Map<String, String> env = System.getenv();
+        try {
+            fileInput = new FileInputStream("config.properties");
+            properties.load(fileInput);
 
-        return env.get(key);
-    }
+            return properties.getProperty(key);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (fileInput != null) {
+                try {
+                    fileInput.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-    static Map<String, String> getAll() {
-        return System.getenv();
+        return null;
     }
 }

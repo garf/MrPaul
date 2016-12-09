@@ -14,11 +14,11 @@ public class MrPaul {
     public static void main(String[] args) throws IOException {
         LunchPoll lunchPoll = new LunchPoll();
 
-        String token = args.length > 0 && args[0] != null ? args[0] : Config.get("BOT_SLACK_TOKEN");
-        String channel = args.length > 1 && args[1] != null ? args[1] : Config.get("BOT_SLACK_CHANNEL");
+        String token = args.length > 0 && args[0] != null ? args[0] : Config.get("token");
+        String channel = args.length > 1 && args[1] != null ? args[1] : Config.get("channel");
         channel = channel == null ? "random" : channel;
 
-        logger.debug("TOKEN: " + (token != null ? "TOKEN SET ( ALL GOOD )" : "!!! TOKEN EMPTY !!!"));
+        logger.error("TOKEN: " + (token != null ? "TOKEN SET ( ALL GOOD )" : "!!! TOKEN EMPTY !!!"));
         logger.debug("CHANNEL: " + channel);
 
         SlackSession session = DirectConnector.getSession(token);

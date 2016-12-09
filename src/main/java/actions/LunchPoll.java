@@ -46,7 +46,8 @@ public class LunchPoll {
     }
 
     public void addReactionPoll(SlackSession session, SlackMessagePosted event) {
-        if (session.sessionPersona().getId().equals(event.getSender().getId()) &&
+        if (
+            session.sessionPersona().getId().equals(event.getSender().getId()) &&
             event.getMessageContent().contains("Let's choose?\n")
         ) {
             for (String num : nums) {
