@@ -12,25 +12,15 @@ import org.slf4j.LoggerFactory;
 public class MessageListeners
 {
     private static final Logger logger = LoggerFactory.getLogger(MessageListeners.class);
-    private String channel = "random";
-
-    public MessageListeners(String channel) {
-        this.channel = channel;
-    }
 
     public void registeringAListener(SlackSession session)
     {
         // first define the listener
-        SlackMessagePostedListener messagePostedListener = new SlackMessagePostedListener()
-        {
-            @Override
-            public void onEvent(SlackMessagePosted event, SlackSession session)
-            {
-                SlackChannel channelOnWhichMessageWasPosted = event.getChannel();
-                String messageContent = event.getMessageContent();
-                SlackUser messageSender = event.getSender();
+        SlackMessagePostedListener messagePostedListener = (event, session1) -> {
+            SlackChannel channelOnWhichMessageWasPosted = event.getChannel();
+            String messageContent = event.getMessageContent();
+            SlackUser messageSender = event.getSender();
 
-            }
         };
         //add it to the session
         session.addMessagePostedListener(messagePostedListener);
@@ -44,36 +34,23 @@ public class MessageListeners
      */
     public void slackMessagePostedEventContent(SlackSession session)
     {
-        session.addMessagePostedListener(new SlackMessagePostedListener()
-        {
-            @Override
-            public void onEvent(SlackMessagePosted event, SlackSession session1)
-            {
-                // if I'm only interested on a certain channel :
-                // I can filter out messages coming from other channels
-                SlackChannel theChannel = session1.findChannelByName(channel);
+        session.addMessagePostedListener((event, session1) -> {
+            logger.debug(event.getMessageContent());
 
-                logger.debug(event.getMessageContent());
+            LunchPoll poll = new LunchPoll();
 
-                if (!theChannel.getId().equals(event.getChannel().getId())) {
-                    return;
-                }
+            String messageContent = event.getMessageContent();
 
-                LunchPoll poll = new LunchPoll();
+            poll.addReactionPoll(session1, event);
 
-                String messageContent = event.getMessageContent();
-
-                poll.addReactionPoll(session1, event);
-
-                // Not for me! Ignore.
-                if (
-                    !messageContent.contains("@" + session1.sessionPersona().getId())
-                ) {
-                    return;
-                }
-
-                poll.lunchPoll(session1, event);
+            // Not for me! Ignore.
+            if (
+                !messageContent.contains("@" + session1.sessionPersona().getId())
+            ) {
+                return;
             }
+
+            poll.lunchPoll(session1, event);
         });
     }
 

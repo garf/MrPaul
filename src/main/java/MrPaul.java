@@ -24,10 +24,9 @@ public class MrPaul {
         SlackSession session = DirectConnector.getSession(token);
 
         session.joinChannel(channel);
-
         lunchPoll.greetings(session, channel);
 
-        MessageListeners listener = new MessageListeners(channel);
+        MessageListeners listener = new MessageListeners();
 
         listener.slackMessagePostedEventContent(session);
         listener.registeringAListener(session);
